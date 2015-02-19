@@ -56,7 +56,7 @@ public class SecurityService {
     private Authentication getAuthentication(AbstractProfile profile) {
         List<GrantedAuthority> authorities = profile.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
-        return new UsernamePasswordAuthenticationToken(new User(profile.getId(), profile.getPassword(), true, true, true, true, authorities), profile.getPassword(), authorities);
+        return new UsernamePasswordAuthenticationToken(new User(profile.getId(), profile.getPassword(), profile.isConfirmed(), true, true, true, authorities), profile.getPassword(), authorities);
     }
 
     public boolean isCurrentUser(String login) {
