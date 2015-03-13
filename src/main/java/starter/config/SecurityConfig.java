@@ -35,24 +35,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        configureMatchers(http);
+        configureRememberMe(http);
+        configureSocial(http);
+        
+        http.csrf().disable()                                
+                   .logout()
+                   .and()
+                   .exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth/signin"))
+                                       .accessDeniedPage("/accessDenied");
+    }
+    
+    protected void configureSocial(HttpSecurity http) throws Exception {
+        http.apply(new SpringSocialConfigurer()).postLoginUrl("/closeWindow").alwaysUsePostLoginUrl(true);
+    }
+    
+    protected void configureRememberMe(HttpSecurity http) throws Exception {
+        http.rememberMe().rememberMeServices(rememberMeServices())
+                         .userDetailsService(authService)
+                         .authenticationSuccessHandler(rememberMeAuthenticationSuccessHandler)
+                         .key("secret key for encrypt cookie");               
+    }
+    
+    protected void configureMatchers(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/closeWindow").permitAll()
                                 .antMatchers("/accessDenied").permitAll()
                                 .antMatchers("/logout").permitAll()
                                 .antMatchers("/auth/**").anonymous()                                
-                                .anyRequest().authenticated()                                
-                                .and()
-                                .rememberMe().rememberMeServices(rememberMeServices())
-                                             .userDetailsService(authService)
-                                             .authenticationSuccessHandler(rememberMeAuthenticationSuccessHandler)
-                                             .key("secret key for encrypt cookie")                                
-                                .and()
-                                .csrf().disable()                                
-                                .logout()
-                                .and()
-                                .exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth/signin"))
-                                                    .accessDeniedPage("/accessDenied")
-                                .and()
-                                .apply(new SpringSocialConfigurer()).postLoginUrl("/closeWindow").alwaysUsePostLoginUrl(true);                                
+                                .anyRequest().authenticated();
     }
     
     @Override
