@@ -9,52 +9,67 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    
+    <version.undertow>1.2.0.Beta10</version.undertow>
+    <version.jackson>2.5.2</version.jackson>
+    <version.mail>1.4.7</version.mail>
+    <version.freemarker>2.3.22</version.freemarker>
+    <version.spring>4.1.6.RELEASE</version.spring>
+    <version.junit>4.12</version.junit>
+    <version.security>4.0.0.M2</version.security>
+    <version.facebook>2.0.0.M1</version.facebook>
+    <version.social-security>1.1.0.RELEASE</version.social-security>
+    <version.validator>5.1.3.Final</version.validator>
+    <version.validator-el>2.2.4</version.validator-el>
+    <version.logback>1.1.3</version.logback>
+    <version.logback-jcl>1.7.12</version.logback-jcl>
+    <version.commons-io>2.4</version.commons-io>
   </properties>
   
   <dependencies>
     <dependency>
       <groupId>io.undertow</groupId>
       <artifactId>undertow-servlet</artifactId>
-      <version>1.2.0.Beta8</version>
+      <version>${version.undertow}</version>
     </dependency>
     
+    <!-- Jackson -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.5.1</version>
+      <version>${version.jackson}</version>
     </dependency>
     
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
-      <version>2.5.1</version>
+      <version>${version.jackson}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>${version.jackson}</version>
     </dependency>
 
     <!-- mail -->    
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
-      <version>1.4.7</version>
+      <version>${version.mail}</version>
     </dependency>
 
-    <!-- Для поддержки Java 8 Date & Time -->    
-    <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-jsr310</artifactId>
-      <version>2.5.1</version>
-    </dependency>
-    
     <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
-      <version>2.3.21</version>
+      <version>${version.freemarker}</version>
     </dependency>
     
     <!-- Spring MVC -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.1.2.RELEASE</version>
+      <version>${version.spring}</version>
       <exclusions>
         <exclusion>
           <groupId>commons-logging</groupId>
@@ -66,27 +81,27 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
-      <version>4.1.2.RELEASE</version>
+      <version>${version.spring}</version>
     </dependency>
     
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
-      <version>4.1.2.RELEASE</version>
+      <version>${version.spring}</version>
     </dependency>
     
     <!-- For testing -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>4.1.2.RELEASE</version>
+      <version>${version.spring}</version>
       <scope>test</scope>
     </dependency>
     
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>${version.junit}</version>
       <scope>test</scope>
     </dependency>
     
@@ -94,7 +109,7 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <version>3.2.5.RELEASE</version>
+      <version>${version.security}</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework</groupId>
@@ -106,7 +121,7 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
-      <version>3.2.5.RELEASE</version>
+      <version>${version.security}</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework</groupId>
@@ -119,13 +134,13 @@
     <dependency>
       <groupId>org.springframework.social</groupId>
       <artifactId>spring-social-facebook</artifactId>
-      <version>2.0.0.M1</version>
+      <version>${version.facebook}</version>
     </dependency>
     
     <dependency>
       <groupId>org.springframework.social</groupId>
       <artifactId>spring-social-security</artifactId>
-      <version>1.1.0.RELEASE</version>
+      <version>${version.social-security}</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework.security</groupId>
@@ -138,38 +153,38 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>5.1.2.Final</version>
+      <version>${version.validator}</version>
     </dependency>
     
     <dependency>
       <groupId>javax.el</groupId>
       <artifactId>javax.el-api</artifactId>
-      <version>2.2.4</version>
+      <version>${version.validator-el}</version>
     </dependency>
 
     <dependency>
       <groupId>org.glassfish.web</groupId>
       <artifactId>javax.el</artifactId>
-      <version>2.2.4</version>
+      <version>${version.validator-el}</version>
     </dependency>
     
     <!-- Logging -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.1.2</version>
+      <version>${version.logback}</version>
     </dependency>
     
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.7.7</version>
+      <version>${version.logback-jcl}</version>
     </dependency> 
     
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.4</version>
+      <version>${version.commons-io}</version>
     </dependency>
   </dependencies>
   

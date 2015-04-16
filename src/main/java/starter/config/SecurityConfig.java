@@ -8,8 +8,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 import org.springframework.social.security.SpringSocialConfigurer;
 
 @Configuration
-@EnableWebMvcSecurity
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true, proxyTargetClass = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -38,14 +38,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configureMatchers(http);
         configureRememberMe(http);
         configureSocial(http);
+        configureLogout(http);
         
         http.csrf().disable()                                
-                   .logout()
-                   .and()
                    .exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth/signin"))
                                        .accessDeniedPage("/accessDenied");
     }
     
+    protected void configureLogout(HttpSecurity http) throws Exception {
+        http.logout();
+    }
+
     protected void configureSocial(HttpSecurity http) throws Exception {
         http.apply(new SpringSocialConfigurer()).postLoginUrl("/closeWindow").alwaysUsePostLoginUrl(true);
     }
