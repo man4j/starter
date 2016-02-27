@@ -33,10 +33,6 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
-import starter.profile.ApplicationProfile;
-import starter.util.AutoEscapeFileTemplateLoader;
-import starter.util.FileUtils;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -48,7 +44,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
@@ -56,6 +52,9 @@ import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.template.SimpleHash;
 import freemarker.template.TemplateModelException;
+import starter.profile.ApplicationProfile;
+import starter.util.AutoEscapeFileTemplateLoader;
+import starter.util.FileUtils;
 
 @Configuration
 @EnableWebMvc
@@ -164,7 +163,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements AsyncConfigure
     public ObjectMapper mapper() {
         ObjectMapper mapper = new ObjectMapper();
         
-        JSR310Module jsr310Module = new JSR310Module();
+        JavaTimeModule jsr310Module = new JavaTimeModule();
         
         jsr310Module.addSerializer(LocalDate.class, new JsonSerializer<LocalDate>() {
             private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -179,7 +178,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements AsyncConfigure
             private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             
             @Override
-            public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
                 return LocalDate.parse(jp.getText(), formatter);
             }
         });
