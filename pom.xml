@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>starter</groupId>
   <artifactId>starter</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <packaging>jar</packaging>
   
   <properties>
@@ -22,6 +22,7 @@
     <version.validator>5.2.4.Final</version.validator>
     <version.validator-el>2.2.5</version.validator-el>
     <version.logback>1.1.5</version.logback>
+    <version.janino>2.7.8</version.janino>
     <version.logback-jcl>1.7.18</version.logback-jcl>
     <version.commons-io>2.4</version.commons-io>
   </properties>
@@ -179,6 +180,12 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${version.logback}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.codehaus.janino</groupId>
+      <artifactId>janino</artifactId>
+      <version>${version.janino}</version>
     </dependency>
     
     <dependency>
