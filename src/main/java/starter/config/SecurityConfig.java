@@ -11,8 +11,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private SimpleUrlAuthenticationSuccessHandler rememberMeAuthenticationSuccessHandler;
-    
+        
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/resources/**");
@@ -50,7 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configureSocial(HttpSecurity http) throws Exception {
-        http.apply(new SpringSocialConfigurer()).postLoginUrl("/closeWindow").alwaysUsePostLoginUrl(true);
+        http.apply(new SpringSocialConfigurer()).defaultFailureUrl("/closeWindow")
+                                                .postLoginUrl("/closeWindow")
+                                                .alwaysUsePostLoginUrl(true);
     }
     
     protected void configureRememberMe(HttpSecurity http) throws Exception {
@@ -75,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new StandardPasswordEncoder("salt");        
+        return new BCryptPasswordEncoder();
     }
     
     /**
@@ -86,9 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new TokenBasedRememberMeServices("secret key for encrypt cookie", authService);
     }
     
-    /**
-     * https://jira.spring.io/browse/SEC-2477
-     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

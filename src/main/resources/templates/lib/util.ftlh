@@ -39,7 +39,7 @@
     <#if escaped>
       ${value.inLocaleOrDefault(localeService.getLocale())}
     <#else>
-      <#noescape>${value.inLocaleOrDefault(localeService.getLocale())}</#noescape>
+      ${value.inLocaleOrDefault(localeService.getLocale())?no_esc}
     </#if>
   </@compress>
 </#macro>

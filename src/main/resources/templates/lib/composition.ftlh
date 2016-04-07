@@ -4,10 +4,10 @@
 </#macro>
 
 <#macro insert value>
-  <#if value?ends_with(".ftl")>
+  <#if value?markup_string?ends_with(".ftlh")>
     <#include value />
   <#else>
-    <#noescape>${value}</#noescape>
+    ${value?no_esc}
   </#if>
 </#macro>
 
@@ -38,7 +38,7 @@
 <#macro insertScripts>
   <#if scripts??>
     <#list scripts as script>
-      <#noescape>${script}</#noescape>
+      ${script?no_esc}
     </#list>    
   </#if>
 </#macro>

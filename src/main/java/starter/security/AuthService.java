@@ -19,7 +19,9 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         AbstractProfile profile = profileService.getById(id);
 
-        if (profile == null) throw new UsernameNotFoundException("Account " + id + " could not be found");
+        if (profile == null) {
+            throw new UsernameNotFoundException("Account " + id + " could not be found");
+        }
 
         return new SocialUser(id, profile.getPassword(), profile.isConfirmed(), true, true, true, profile.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
     }

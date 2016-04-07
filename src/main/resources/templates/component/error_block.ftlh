@@ -22,9 +22,9 @@
       </ul>
     </div>      
 
-    <#assign haveErrors=true />
-    <#assign haveAnywhereErrors=true />
+    <#assign hasErrors=true />
+    <#assign hasAnywhereErrors=true />
   <#else>
-    <#assign haveErrors=false />
+    <#assign hasErrors=false />
   </#if>
 </#macro>

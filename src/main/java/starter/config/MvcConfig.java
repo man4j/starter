@@ -15,11 +15,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.ui.freemarker.SpringTemplateLoader;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -48,12 +50,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.ext.beans.BeansWrapperBuilder;
-import freemarker.template.SimpleHash;
+import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateModelException;
 import starter.profile.ApplicationProfile;
-import starter.util.AutoEscapeFileTemplateLoader;
 import starter.util.FileUtils;
 
 @Configuration
@@ -101,26 +100,21 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements AsyncConfigure
     public FreeMarkerConfigurer freeMarkerConfigurer() throws TemplateModelException {
         FreeMarkerConfigurer fmc = new FreeMarkerConfigurer();
         
-        freemarker.template.Configuration config = new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_21);
+        freemarker.template.Configuration config = new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_24);
         
-        BeansWrapper beansWrapper = new BeansWrapperBuilder(freemarker.template.Configuration.VERSION_2_3_21).build();
+        DefaultObjectWrapper wrapper = (DefaultObjectWrapper) freemarker.template.Configuration.getDefaultObjectWrapper(freemarker.template.Configuration.VERSION_2_3_24);
         
-        SimpleHash simpleHash = new SimpleHash(beansWrapper);
-        
-        simpleHash.put("version", getLastModified() + "");
-        simpleHash.put("enum", beansWrapper.getEnumModels());
-        simpleHash.put("static", beansWrapper.getStaticModels());
-        
-        MultiTemplateLoader tl = new MultiTemplateLoader(new TemplateLoader[] {new AutoEscapeFileTemplateLoader("classpath:/templates"), 
-                new AutoEscapeFileTemplateLoader("classpath:/org/springframework/web/servlet/view/freemarker")});
+        MultiTemplateLoader tl = new MultiTemplateLoader(new TemplateLoader[] {new SpringTemplateLoader(new DefaultResourceLoader(), "classpath:/templates"), 
+                                                                               new SpringTemplateLoader(new DefaultResourceLoader(), "classpath:/org/springframework/web/servlet/view/freemarker")});
         
         config.setAutoFlush(false);
         config.setDefaultEncoding(StandardCharsets.UTF_8.name());
         config.setOutputEncoding(StandardCharsets.UTF_8.name());
-        config.setObjectWrapper(beansWrapper);
-        config.setTemplateUpdateDelay(applicationProfile.isTemplateCacheEnabled() ? 999999 : 0);
+        config.setTemplateUpdateDelayMilliseconds(applicationProfile.isTemplateCacheEnabled() ? 999999 : 0);
         config.setTemplateLoader(tl);
-        config.setAllSharedVariables(simpleHash);
+        config.setSharedVariable("version", Long.toString(getLastModified()));
+        config.setSharedVariable("enum", wrapper.getEnumModels());
+//        config.setSharedVariable("static",  wrapper.getStaticModels());
                 
         fmc.setConfiguration(config);
         
@@ -131,7 +125,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements AsyncConfigure
     public ViewResolver viewResolver() {
         FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
         
-        viewResolver.setSuffix(".ftl");
+        viewResolver.setSuffix(".ftlh");
         viewResolver.setContentType("text/html;charset=UTF-8");
         viewResolver.setRequestContextAttribute("rc");
         viewResolver.setCache(applicationProfile.isTemplateCacheEnabled());        
