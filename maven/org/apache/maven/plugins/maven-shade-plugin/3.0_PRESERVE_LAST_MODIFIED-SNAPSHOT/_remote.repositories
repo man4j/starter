@@ -1,0 +1,4 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Thu Apr 14 15:47:26 MSK 2016
+maven-shade-plugin-3.0_PRESERVE_LAST_MODIFIED-SNAPSHOT.jar>=
+maven-shade-plugin-3.0_PRESERVE_LAST_MODIFIED-SNAPSHOT.pom>=
