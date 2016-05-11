@@ -51,6 +51,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateModelException;
 import starter.profile.ApplicationProfile;
 import starter.util.FileUtils;
@@ -114,6 +115,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements AsyncConfigure
         config.setTemplateLoader(tl);
         config.setSharedVariable("version", Long.toString(getLastModified()));
         config.setSharedVariable("enum", wrapper.getEnumModels());
+        config.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 //        config.setSharedVariable("static",  wrapper.getStaticModels());
                 
         fmc.setConfiguration(config);

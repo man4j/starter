@@ -4,10 +4,12 @@
 </#macro>
 
 <#macro insert value>
-  <#if value?markup_string?ends_with(".ftlh")>
-    <#include value />
-  <#else>
-    ${value?no_esc}
+  <#if value?has_content>
+    <#if value?markup_string?ends_with(".ftlh")>
+      <#include value />
+    <#else>
+      ${value?no_esc}
+    </#if>
   </#if>
 </#macro>
 
