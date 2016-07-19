@@ -30,13 +30,13 @@ import org.springframework.social.security.provider.SocialAuthenticationService;
  * И всё ради "display=popup"
  */
 class SecurityEnabledConnectionFactoryConfigurer implements ConnectionFactoryConfigurer {
-
     private SocialAuthenticationServiceRegistry registry;
     
     public SecurityEnabledConnectionFactoryConfigurer() {
         registry = new SocialAuthenticationServiceRegistry();
     }
     
+    @Override
     public void addConnectionFactory(ConnectionFactory<?> connectionFactory) {
         registry.addAuthenticationService(wrapAsSocialAuthenticationService(connectionFactory));
     }
@@ -44,11 +44,10 @@ class SecurityEnabledConnectionFactoryConfigurer implements ConnectionFactoryCon
     public ConnectionFactoryRegistry getConnectionFactoryLocator() {
         return registry;
     }
-
     
     private <A> SocialAuthenticationService<A> wrapAsSocialAuthenticationService(ConnectionFactory<A> cf) {
         if (cf instanceof OAuth1ConnectionFactory) {
-            return new OAuth1AuthenticationService<A>((OAuth1ConnectionFactory<A>) cf);
+            return new OAuth1AuthenticationService<>((OAuth1ConnectionFactory<A>) cf);
         } else if (cf instanceof OAuth2ConnectionFactory) {
             final OAuth2AuthenticationService<A> authService = new OAuth2AuthenticationService<A>((OAuth2ConnectionFactory<A>) cf) {
                 @Override
