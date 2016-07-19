@@ -2,32 +2,34 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>starter</groupId>
   <artifactId>starter</artifactId>
-  <version>0.31</version>
+  <version>0.32</version>
   <packaging>jar</packaging>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     
-    <version.undertow>1.3.20.Final</version.undertow>
-    <version.jackson>2.7.3</version.jackson>
+    <version.undertow>1.3.22.Final</version.undertow>
+    <version.jackson>2.8.0</version.jackson>
     <version.mail>1.4.7</version.mail>
-    <version.freemarker>2.3.24-incubating</version.freemarker>
-    <version.spring>4.2.5.RELEASE</version.spring>
+    <version.freemarker>2.3.25-incubating</version.freemarker>
+    <version.spring>4.3.1.RELEASE</version.spring>
     <version.junit>4.12</version.junit>
-    <version.security>4.0.4.RELEASE</version.security>
+    <version.security>4.1.1.RELEASE</version.security>
     <version.facebook>2.0.3.RELEASE</version.facebook>
     <version.social-security>1.1.4.RELEASE</version.social-security>
     <version.validator>5.2.4.Final</version.validator>
     <version.validator-el>2.2.5</version.validator-el>
     <version.logback>1.1.7</version.logback>
-    <version.janino>2.7.8</version.janino>
+    <version.janino>3.0.0</version.janino>
     <version.logback-jcl>1.7.21</version.logback-jcl>
     <version.commons-io>2.4</version.commons-io>
   </properties>
   
   <dependencies>
+    <!-- Undertow -->
     <dependency>
       <groupId>io.undertow</groupId>
       <artifactId>undertow-servlet</artifactId>
@@ -53,13 +55,14 @@
       <version>${version.jackson}</version>
     </dependency>
 
-    <!-- mail -->    
+    <!-- Mail -->    
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
       <version>${version.mail}</version>
     </dependency>
 
+    <!-- Freemarker -->
     <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
@@ -95,21 +98,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
       <version>${version.spring}</version>
-    </dependency>
-    
-    <!-- For testing -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>${version.spring}</version>
-      <scope>test</scope>
-    </dependency>
-    
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${version.junit}</version>
-      <scope>test</scope>
     </dependency>
     
     <!-- Security -->
@@ -194,6 +182,22 @@
       <version>${version.logback-jcl}</version>
     </dependency> 
     
+    <!-- For testing -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${version.spring}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${version.junit}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- other -->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -215,7 +219,6 @@
         <version>2.7</version>
         <executions>
           <execution>
-            <id>copy-configuration-files</id>
             <phase>install</phase>
             <goals>
               <goal>copy-resources</goal>
