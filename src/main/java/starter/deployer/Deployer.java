@@ -56,7 +56,7 @@ public class Deployer {
     }
     
     protected void configureServer() {
-        serverBuilder.addHttpListener(8080, "localhost");
+        serverBuilder.addHttpListener(8080, "0.0.0.0");
     }
     
     public void deploy() {
