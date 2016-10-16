@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.social.security.SocialUser;
 
 import starter.model.AbstractProfile;
+import starter.service.ProfileService;
 
 public class AuthService implements UserDetailsService {
     @Autowired

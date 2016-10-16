@@ -4,15 +4,26 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-abstract public class AbstractProfile {
-    private Set<String> roles = new HashSet<>();
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
+import starter.util.HibernateString2SetConverter;
+
+@MappedSuperclass
+abstract public class AbstractProfile {
+    @Id
     private String id;
+
+    @Convert(converter = HibernateString2SetConverter.class)
+    private Set<String> roles = new HashSet<>();
     
     private String email;
     
     private String password;
 
+    @Column(name = "confirm_uuid", updatable = false)
     private String confirmUuid = UUID.randomUUID().toString();
 
     private boolean confirmed;

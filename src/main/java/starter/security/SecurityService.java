@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 import starter.model.AbstractProfile;
+import starter.service.ProfileService;
 
 public class SecurityService {
     @Autowired

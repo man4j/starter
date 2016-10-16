@@ -6,6 +6,7 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 
 import starter.model.AbstractProfile;
+import starter.service.ProfileService;
 
 public class SocialSignUp implements ConnectionSignUp {
     @Autowired
@@ -24,7 +25,7 @@ public class SocialSignUp implements ConnectionSignUp {
         AbstractProfile profile = profileService.getById(userId);
 
         if (profile == null) {
-            profileService.createProfile(userId, "", passwordEncoder.encode(securityService.generatePassword()), true);
+            profileService.create(userId, "", passwordEncoder.encode(securityService.generatePassword()), true);
         }
 
         return userId;
