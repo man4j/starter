@@ -22,6 +22,8 @@ public class Deployer {
     
     protected Builder serverBuilder = Undertow.builder();
     
+    private Undertow server;
+    
     protected void configureContextParams() {
         deploymentInfo.addInitParameter("contextClass", "org.springframework.web.context.support.AnnotationConfigWebApplicationContext")                      
                       .addInitParameter("defaultHtmlEscape", "true");//enable html escape in spring.ftl (see spring.bind)        
@@ -82,8 +84,13 @@ public class Deployer {
             throw new RuntimeException(e);
         }
 
-        Undertow server = serverBuilder.setHandler(handler).build(); 
+        server = serverBuilder.setHandler(handler).build(); 
 
         server.start();
     }
+    
+    public void undeploy() {
+        server.stop();
+    }
 }
+
