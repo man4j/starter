@@ -30,7 +30,7 @@ public abstract class DbConfig {
     public DataSource dataSource() {
         HikariDataSource ds = new HikariDataSource();
         
-        ds.setJdbcUrl(profile.getDbUrl() + "/" + profile.getDbName());
+        ds.setJdbcUrl(profile.getDbUrl());
         ds.setDriverClassName("com.mysql.jdbc.Driver");
         ds.setUsername(profile.getDbUser());
         ds.setMaximumPoolSize(50);
