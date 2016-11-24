@@ -60,6 +60,7 @@ public abstract class DbConfig {
                                                             put("hibernate.jdbc.batch_size", 1000);
                                                             put("hibernate.order_inserts", true);
                                                             put("hibernate.order_updates", true);
+                                                            put("hibernate.auto_quote_keyword", true);
                                                           }});
        em.setJpaVendorAdapter(jpaVendorAdapter);
        em.setPackagesToScan(packagesToScan().toArray(new String[] {}));

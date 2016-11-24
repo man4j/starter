@@ -3,11 +3,11 @@ package starter.service;
 import starter.model.AbstractProfile;
 
 public interface ProfileService {
-    AbstractProfile getById(String id);
+    AbstractProfile getByEmail(String email);
     
     AbstractProfile getByConfirmUuid(String uuid);
 
     AbstractProfile update(AbstractProfile profile);
 
-    public AbstractProfile create(String id, String email, String password, boolean confirmed);
+    public AbstractProfile create(String email, String password, boolean confirmed);
 }

@@ -2,10 +2,11 @@ package starter.model;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -14,8 +15,9 @@ import starter.util.HibernateString2SetConverter;
 @MappedSuperclass
 abstract public class AbstractProfile {
     @Id
-    private String id;
-
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int id;
+    
     @Convert(converter = HibernateString2SetConverter.class)
     private Set<String> roles = new HashSet<>();
     
@@ -23,8 +25,8 @@ abstract public class AbstractProfile {
     
     private String password;
 
-    @Column(name = "confirm_uuid", updatable = false)
-    private String confirmUuid = UUID.randomUUID().toString();
+    @Column(name = "confirm_uuid")
+    private String confirmUuid;
 
     private boolean confirmed;
 
@@ -32,14 +34,10 @@ abstract public class AbstractProfile {
         return roles;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    
     public String getEmail() {
         return email;
     }

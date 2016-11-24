@@ -50,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configureSocial(HttpSecurity http) throws Exception {
-        http.apply(new SpringSocialConfigurer()).defaultFailureUrl("/closeWindow")
+        http.apply(new SpringSocialConfigurer()).signupUrl("/closeWindow")
+                                                .defaultFailureUrl("/closeWindow")
                                                 .postLoginUrl("/closeWindow")
                                                 .alwaysUsePostLoginUrl(true);
     }
@@ -66,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/closeWindow").permitAll()
                                 .antMatchers("/accessDenied").permitAll()
                                 .antMatchers("/logout").permitAll()
-                                .antMatchers("/auth/**").anonymous()                                
+                                .antMatchers("/auth/**").anonymous()
                                 .anyRequest().authenticated();
     }
     

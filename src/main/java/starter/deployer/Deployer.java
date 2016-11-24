@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -37,7 +38,8 @@ public class Deployer {
     }
     
     protected void configureListeners() {
-        deploymentInfo.addListener(Servlets.listener(ContextLoaderListener.class))
+        deploymentInfo.addListener(Servlets.listener(RequestContextListener.class))
+                      .addListener(Servlets.listener(ContextLoaderListener.class))
                       .addListener(Servlets.listener(HttpSessionEventPublisher.class));
     }
     
