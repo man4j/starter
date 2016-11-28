@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>starter</groupId>
   <artifactId>starter</artifactId>
-  <version>0.50</version>
+  <version>0.51</version>
   <packaging>jar</packaging>
   
   <properties>

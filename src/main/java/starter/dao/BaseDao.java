@@ -39,6 +39,10 @@ abstract public class BaseDao<T> {
         return em.find(entityClass, id);
     }
     
+    public T getReference(Serializable id) {
+        return em.getReference(entityClass, id);
+    }
+    
     /**
      * This method generate SQL SELECT for fetch and compare detached object with persistent state and generate 
      * SQL update if detached object not equals persistent state.
@@ -50,8 +54,8 @@ abstract public class BaseDao<T> {
     /**
      * This method always generate SQL update.
      */
-    public T update(T detachedEntity) {
-        em.unwrap(Session.class).update(detachedEntity);
+    public T saveOrUpdate(T detachedEntity) {
+        em.unwrap(Session.class).saveOrUpdate(detachedEntity);
         
         return detachedEntity;
     }

@@ -1,22 +1,27 @@
 package starter.deployer;
 
-import io.undertow.Undertow;
-import io.undertow.Undertow.Builder;
-import io.undertow.server.HttpHandler;
-import io.undertow.servlet.Servlets;
-import io.undertow.servlet.api.DeploymentInfo;
-import io.undertow.servlet.api.DeploymentManager;
+import java.util.Collections;
+import java.util.Set;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
 
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.web.SpringServletContainerInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
+
+import io.undertow.Undertow;
+import io.undertow.Undertow.Builder;
+import io.undertow.server.HttpHandler;
+import io.undertow.servlet.Servlets;
+import io.undertow.servlet.api.DeploymentInfo;
+import io.undertow.servlet.api.DeploymentManager;
+import io.undertow.servlet.api.ServletContainerInitializerInfo;
 
 public class Deployer {
     protected DeploymentInfo deploymentInfo = Servlets.deployment();
@@ -24,6 +29,10 @@ public class Deployer {
     protected Builder serverBuilder = Undertow.builder();
     
     private Undertow server;
+    
+    protected Set<Class<?>> configureSpringInitializers() {
+        return Collections.emptySet();
+    }
     
     protected void configureContextParams() {
         deploymentInfo.addInitParameter("contextClass", "org.springframework.web.context.support.AnnotationConfigWebApplicationContext")                      
@@ -33,8 +42,8 @@ public class Deployer {
     protected void configureFilters() {
         deploymentInfo.addFilter(Servlets.filter("charset", CharacterEncodingFilter.class).addInitParam("encoding", "UTF-8").addInitParam("forceEncoding", "true"))
                       .addFilter(Servlets.filter("springSecurityFilterChain", DelegatingFilterProxy.class))
-                      .addFilterUrlMapping("charset", "/*", DispatcherType.REQUEST)
-                      .addFilterUrlMapping("springSecurityFilterChain", "/*", DispatcherType.REQUEST);
+                      .addFilterServletNameMapping("charset", "dispatcher", DispatcherType.REQUEST)
+                      .addFilterServletNameMapping("springSecurityFilterChain", "dispatcher", DispatcherType.REQUEST);
     }
     
     protected void configureListeners() {
@@ -64,6 +73,10 @@ public class Deployer {
     }
     
     public void deploy() {
+        Set<Class<?>> springInitializerHandleTypes = configureSpringInitializers();
+        
+        deploymentInfo.addServletContainerInitalizer(new ServletContainerInitializerInfo(SpringServletContainerInitializer.class, springInitializerHandleTypes));
+        
         configureContextParams();
         configureFilters();
         configureListeners();
