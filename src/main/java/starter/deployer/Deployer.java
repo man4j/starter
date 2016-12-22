@@ -68,6 +68,10 @@ public class Deployer {
         deploymentInfo.setDeploymentName("test.war");
     }
     
+    protected void configureErrorPage() {
+        deploymentInfo.addErrorPage(Servlets.errorPage("/errors"));
+    }
+
     protected void configureServer() {
         serverBuilder.addHttpListener(8080, "0.0.0.0");
     }
@@ -82,7 +86,8 @@ public class Deployer {
         configureListeners();
         configureServlets();
         configureContextPath();
-        configureDeploymentName();    
+        configureDeploymentName();
+        configureErrorPage();
         configureServer();
         
         deploymentInfo.setClassLoader(this.getClass().getClassLoader());

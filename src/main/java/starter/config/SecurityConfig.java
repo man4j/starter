@@ -67,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/closeWindow").permitAll()
                                 .antMatchers("/accessDenied").permitAll()
                                 .antMatchers("/logout").permitAll()
+                                .antMatchers("/errors").permitAll()
                                 .antMatchers("/auth/**").anonymous()
                                 .anyRequest().authenticated();
     }

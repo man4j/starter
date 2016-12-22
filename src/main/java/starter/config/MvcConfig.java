@@ -130,7 +130,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements AsyncConfigure
         viewResolver.setSuffix(".ftlh");
         viewResolver.setContentType("text/html;charset=UTF-8");
         viewResolver.setRequestContextAttribute("rc");
-        viewResolver.setCache(applicationProfile.isTemplateCacheEnabled());        
+        viewResolver.setExposeContextBeansAsAttributes(true);
+        viewResolver.setExposeRequestAttributes(true);
+        viewResolver.setExposeSessionAttributes(true);
         
         return viewResolver;
     }
